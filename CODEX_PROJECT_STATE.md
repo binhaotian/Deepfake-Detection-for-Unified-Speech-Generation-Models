@@ -9,7 +9,7 @@ current_phase: G2 canonical-prompt pilot human listening review
 active_design_group: G2 restoration and source selection
 next_protocol_item: review the 10-pair five-condition audio-only package before any G2 full-scale generation
 active_run: none
-git_snapshot_preparation: origin configured and snapshot branch created; not committed or pushed
+git_snapshot_preparation: published to the public origin repository
 paused:
   - new Whisper embedding/probe work
   - AuK-Flash task generation for the main comparison
@@ -119,7 +119,9 @@ CE  -> CosyEdit
 - `RESEARCH_SNAPSHOT.md` records the intended upload and exclusion policy.
 - Large datasets, audio, embeddings, checkpoints, archives, and local paper copies are excluded by `.gitignore`.
 - The research repository is configured as `origin`; Tencent AuK is retained as fetch-only `upstream`.
-- The active branch is `research-snapshot-2026-10-07`; no commit or push has been performed.
+- The active and GitHub default branch is `research-snapshot-2026-10-07`.
+- Initial public snapshot commit: `774c7ae20847083e2f14c3ac3dcd0aa3244b4f12`, pushed on 2026-10-07.
+- Under `data/`, only `README.md` and `MODEL_DATA_INVENTORY.md` are included; research data and generated artifacts remain local.
 
 ## Latest comparable results
 
@@ -172,7 +174,7 @@ Stable error patterns:
 3. The final operational meaning of "deepfake tasks become blurred" is not yet fixed.
 4. Task taxonomy remains open, especially VC, emotion/style conversion, and benign restoration versus authenticity-changing editing.
 5. `Real` is an ASVspoof bona fide anchor, not a newly recorded parallel real utterance for every generated condition.
-6. The Git snapshot is not yet committed or pushed.
+6. GitHub is not a backup for the excluded large artifacts under `/root/AuK/data`, `/root/AuK/encoders`, `/root/AuK/ckpts`, or `/data`.
 
 ## Recommended next discussion
 

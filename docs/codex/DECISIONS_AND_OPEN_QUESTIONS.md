@@ -300,11 +300,13 @@ Before paper claims, decide whether to add multiple split seeds, confidence inte
 
 ### O-001 — Git preservation
 
-Status: upload scope and remotes prepared on 2026-10-07; commit and push still require user approval.
+Status: published on 2026-10-07.
 
 The batch inference changes in `src/auk/infer/infer_auk.py` and `src/auk/model/cfm_edit.py` must be preserved in the research snapshot. The intended repository contents and exclusions are recorded in `/root/AuK/RESEARCH_SNAPSHOT.md`.
 
 The user approved a public GitHub repository for this curated snapshot on 2026-10-07. The research repository is configured as `origin`. The Tencent repository has been renamed to `upstream`, retained for fetches, and given a disabled push URL. The active local branch is `research-snapshot-2026-10-07`.
+
+The initial snapshot commit is `774c7ae20847083e2f14c3ac3dcd0aa3244b4f12`. The same branch is the GitHub default branch. Only `data/README.md` and `data/MODEL_DATA_INVENTORY.md` are published from the repository's `data/` directory.
 
 ### O-002 — Root disk pressure
 

@@ -18,6 +18,7 @@ Priority when sources disagree:
 | GitHub snapshot scope | `/root/AuK/RESEARCH_SNAPSHOT.md` | authoritative include/exclude and remote-safety plan |
 | Repository operating rules | `/root/AuK/AGENTS.md` | required workflow and preservation rules |
 | Git ignore policy | `/root/AuK/.gitignore` | excludes datasets, audio, embeddings, checkpoints, archives, and local scratch artifacts |
+| Initial public Git snapshot | commit `774c7ae20847083e2f14c3ac3dcd0aa3244b4f12` on branch `research-snapshot-2026-10-07` | pushed to `origin` on 2026-10-07 |
 
 ## Source data and mappings
 

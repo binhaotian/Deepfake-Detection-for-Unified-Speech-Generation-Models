@@ -31,20 +31,20 @@ These exclusions avoid GitHub size limits, publication of licensed speech data, 
 
 ## Remote safety
 
-The current `origin` points to the upstream Tencent repository:
+Before publication, `origin` pointed to the upstream Tencent repository:
 
 ```text
 https://github.com/Tencent-Hunyuan/AuK.git
 ```
 
-Do not push the research snapshot to that remote. The upstream remote is retained for fetching, while its push URL is disabled. The research repository is configured separately as `origin`:
+The research snapshot was not pushed to that remote. The upstream remote is retained for fetching, while its push URL is disabled. The research repository is configured separately as `origin`:
 
 ```bash
 origin   -> git@github-binhaotian:binhaotian/Deepfake-Detection-for-Unified-Speech-Generation-Models.git
 upstream -> https://github.com/Tencent-Hunyuan/AuK.git (fetch only)
 ```
 
-The active branch is `research-snapshot-2026-10-07`. Review `git status`, stage only the intended files, commit the snapshot, and then push the new branch. No commit or push had been performed when this document was last updated.
+The active and GitHub default branch is `research-snapshot-2026-10-07`. The initial public snapshot was committed and pushed on 2026-10-07 as `774c7ae20847083e2f14c3ac3dcd0aa3244b4f12`.
 
 ## Not a complete artifact backup
 

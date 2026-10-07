@@ -1,32 +1,30 @@
 {
-  "generated_at": "2026-10-07T23:21:58.878530+08:00",
+  "generated_at": "2026-10-07T23:26:48.556061+08:00",
   "repository": "/root/AuK",
   "disk": [
     {
       "path": "/",
       "total_bytes": 213514743808,
-      "used_bytes": 191956160512,
-      "free_bytes": 21558583296,
+      "used_bytes": 191958999040,
+      "free_bytes": 21555744768,
       "used_percent": 89.9
     },
     {
       "path": "/data",
       "total_bytes": 107304976384,
-      "used_bytes": 56254193664,
-      "free_bytes": 51050782720,
-      "used_percent": 52.42
+      "used_bytes": 62139269120,
+      "free_bytes": 45165707264,
+      "used_percent": 57.91
     }
   ],
   "git": {
-    "head": "871bf3d4635c5ca0ecb6b85f3c4e29c4682a88c7",
+    "head": "774c7ae20847083e2f14c3ac3dcd0aa3244b4f12",
     "status_ok": true,
-    "dirty_entry_count": 57,
+    "dirty_entry_count": 4,
     "important_entries": [
-      " M src/auk/infer/infer_auk.py",
-      " M src/auk/model/cfm_edit.py",
-      "?? AGENTS.md",
-      "?? CODEX_PROJECT_STATE.md",
-      "?? docs/codex/"
+      "M CODEX_PROJECT_STATE.md",
+      " M docs/codex/ARTIFACT_INDEX.md",
+      " M docs/codex/DECISIONS_AND_OPEN_QUESTIONS.md"
     ]
   },
   "gpu": {
