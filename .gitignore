@@ -2,10 +2,32 @@
 # Keep the empty ckpts/ dir so users can drop downloaded weights straight in.
 ckpts/*
 !ckpts/.gitkeep
+/checkpoints/
+/encoders/
 *.safetensors
 *.pt
 *.ckpt
 *.bin
+
+# Local research datasets and generated artifacts. Keep only the two small
+# inventory documents that explain where authoritative artifacts live.
+/data/*
+!/data/README.md
+!/data/MODEL_DATA_INVENTORY.md
+*.npy
+*.flac
+*.log
+*.pid
+
+# Local source papers, archives, scratch images, and ad-hoc audio checks.
+/AUK.pdf
+/What Counts as Real Speech Restoration and Voice Quality Conversion Pose New Challenges to Deepfake Detection.pdf
+/ASVspoof2019_2021_VCTK_VCC_MetaInfo.tar.gz
+/experiment_summary_*.zip
+/experiment_summary_*.zip.sha256
+/image.png
+/test_*.wav
+
 agent_space/
 gradio/
 eval/
@@ -42,11 +64,10 @@ gongfeng.html
 .env.*
 !.env.example
 
-# internal docs (local only, not published)
+# Tool-specific private docs (local only, not published).
 agent_docs/
 docs/EXP.md
 docs/analysis/
 docs/session/
 docs/task/
 CLAUDE.md
-AGENTS.md

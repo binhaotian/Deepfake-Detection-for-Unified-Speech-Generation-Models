@@ -151,7 +151,7 @@ class CFMEdit(nn.Module):
         cfg_strength=1.0,
         sway_sampling_coef=None,
         t_grid: list[float] | None = None,  # explicit sampling times (e.g. DMD student time_grid); overrides steps+sway
-        seed: int | None = None,
+        seed: int | list[int] | torch.Tensor | None = None,
         max_duration=65536,
         vocoder: Callable[[float["b d n"]], float["b nw"]] | None = None,
         use_epss=True,
@@ -214,10 +214,13 @@ class CFMEdit(nn.Module):
             v_cond, v_uncond = torch.chunk(pred_cfg, 2, dim=0)
             return v_cond + (v_cond - v_uncond) * cfg_strength
 
+        if seed is not None and not isinstance(seed, int) and len(seed) != batch:
+            raise ValueError(f"Expected {batch} per-sample seeds, got {len(seed)}.")
         y0 = []
-        for dur in target_duration:
+        for index, dur in enumerate(target_duration):
             if exists(seed):
-                torch.manual_seed(seed)
+                sample_seed = seed if isinstance(seed, int) else seed[index]
+                torch.manual_seed(int(sample_seed))
             y0.append(torch.randn(dur, self.num_channels, device=self.device, dtype=ref_latent.dtype))
         y0 = pad_sequence(y0, padding_value=0, batch_first=True)
 

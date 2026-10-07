@@ -1,0 +1,594 @@
+{
+  "generated_at": "2026-10-07T23:21:58.878530+08:00",
+  "repository": "/root/AuK",
+  "disk": [
+    {
+      "path": "/",
+      "total_bytes": 213514743808,
+      "used_bytes": 191956160512,
+      "free_bytes": 21558583296,
+      "used_percent": 89.9
+    },
+    {
+      "path": "/data",
+      "total_bytes": 107304976384,
+      "used_bytes": 56254193664,
+      "free_bytes": 51050782720,
+      "used_percent": 52.42
+    }
+  ],
+  "git": {
+    "head": "871bf3d4635c5ca0ecb6b85f3c4e29c4682a88c7",
+    "status_ok": true,
+    "dirty_entry_count": 57,
+    "important_entries": [
+      " M src/auk/infer/infer_auk.py",
+      " M src/auk/model/cfm_edit.py",
+      "?? AGENTS.md",
+      "?? CODEX_PROJECT_STATE.md",
+      "?? docs/codex/"
+    ]
+  },
+  "gpu": {
+    "available": true,
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 4090",
+        "driver_version": "550.78",
+        "memory_total_mib": "49140",
+        "memory_used_mib": "12"
+      }
+    ],
+    "error": null
+  },
+  "active_research_processes": [],
+  "environments": [
+    {
+      "name": "base",
+      "python": "/root/anaconda3/bin/python",
+      "exists": true,
+      "version": "Python 3.11.7"
+    },
+    {
+      "name": "cosyvoice3",
+      "python": "/data/venvs/cosyvoice3/bin/python",
+      "exists": true,
+      "version": "Python 3.11.7"
+    },
+    {
+      "name": "mossformer_gan_se",
+      "python": "/data/venvs/mossformer_gan_se/bin/python",
+      "exists": true,
+      "version": "Python 3.11.7"
+    },
+    {
+      "name": "dae_tse",
+      "python": "/data/venvs/dae_tse/bin/python",
+      "exists": true,
+      "version": "Python 3.11.7"
+    },
+    {
+      "name": "cosyedit",
+      "python": "/data/CosyEdit/venv/bin/python",
+      "exists": true,
+      "version": "Python 3.11.7"
+    }
+  ],
+  "datasets": {
+    "main_matched": {
+      "root": "/root/AuK/data/matched_full_5369_snr0_batch4_generated",
+      "pair_directories": 5369,
+      "manifest_rows": 5369,
+      "wav_counts": {
+        "anchor.wav": 5369,
+        "tts_reference.wav": 5369,
+        "auk_tts.wav": 5369,
+        "se_noise.wav": 5369,
+        "se_input.wav": 5369,
+        "auk_se.wav": 5369,
+        "tse_interferer.wav": 5369,
+        "tse_input.wav": 5369,
+        "auk_tse.wav": 5369
+      },
+      "total_registered_wavs": 48321
+    },
+    "specialist_outputs": {
+      "cosyvoice3_tts": 5369,
+      "mossformer_se": 5369,
+      "dae_tse": 5369
+    },
+    "content_edit": {
+      "pair_manifest_rows": 5369,
+      "status_counts": {
+        "accepted": 3734,
+        "needs_review": 176,
+        "rejected": 1459
+      },
+      "accepted_manifest_rows": 3734,
+      "auk_outputs": 3734,
+      "cosyedit_outputs": 3734,
+      "cosyedit_manifest_rows": 3734
+    }
+  },
+  "embeddings": [
+    {
+      "path": "/data/embeddings/specialist_matched_wav2vec2/features.npy",
+      "exists": true,
+      "shape": [
+        5369,
+        7,
+        1024
+      ],
+      "dtype": "float32",
+      "bytes": 153940096
+    },
+    {
+      "path": "/data/embeddings/specialist_matched_hubert/features.npy",
+      "exists": true,
+      "shape": [
+        5369,
+        7,
+        1024
+      ],
+      "dtype": "float32",
+      "bytes": 153940096
+    },
+    {
+      "path": "/data/embeddings/content_edit_full_20261001/wav2vec2/features.npy",
+      "exists": true,
+      "shape": [
+        3734,
+        2,
+        1024
+      ],
+      "dtype": "float32",
+      "bytes": 30589056
+    },
+    {
+      "path": "/data/embeddings/content_edit_full_20261001/hubert/features.npy",
+      "exists": true,
+      "shape": [
+        3734,
+        2,
+        1024
+      ],
+      "dtype": "float32",
+      "bytes": 30589056
+    },
+    {
+      "path": "/data/embeddings/cosyedit_content_full_20261006/wav2vec2/features.npy",
+      "exists": true,
+      "shape": [
+        3734,
+        2,
+        1024
+      ],
+      "dtype": "float32",
+      "bytes": 30589056
+    },
+    {
+      "path": "/data/embeddings/cosyedit_content_full_20261006/hubert/features.npy",
+      "exists": true,
+      "shape": [
+        3734,
+        2,
+        1024
+      ],
+      "dtype": "float32",
+      "bytes": 30589056
+    },
+    {
+      "path": "/data/embeddings/cosyedit_content_full_20261006/whisper/features.npy",
+      "exists": true,
+      "shape": [
+        3734,
+        2,
+        1280
+      ],
+      "dtype": "float32",
+      "bytes": 38236288,
+      "authoritative": false,
+      "status": "partial_paused"
+    }
+  ],
+  "reports": [
+    {
+      "name": "fourclass_auk_wav2vec2",
+      "path": "/data/probe_results/matched_fourclass_auk_wav2vec2_mi5000/report.json",
+      "exists": true,
+      "pair_count": null,
+      "sample_count": null,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse"
+      ],
+      "accuracy": 0.8213832487309645,
+      "balanced_accuracy": 0.8213832487309645,
+      "macro_f1": 0.8215075385243122,
+      "confusion_matrix": [
+        [
+          697,
+          6,
+          34,
+          51
+        ],
+        [
+          6,
+          777,
+          2,
+          3
+        ],
+        [
+          24,
+          3,
+          594,
+          167
+        ],
+        [
+          43,
+          3,
+          221,
+          521
+        ]
+      ]
+    },
+    {
+      "name": "fourclass_specialist_wav2vec2",
+      "path": "/data/probe_results/matched_fourclass_specialist_wav2vec2_mi5000/report.json",
+      "exists": true,
+      "pair_count": null,
+      "sample_count": null,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse"
+      ],
+      "accuracy": 0.8696065989847716,
+      "balanced_accuracy": 0.8696065989847716,
+      "macro_f1": 0.8697853199326995,
+      "confusion_matrix": [
+        [
+          633,
+          9,
+          106,
+          40
+        ],
+        [
+          5,
+          777,
+          1,
+          5
+        ],
+        [
+          66,
+          2,
+          645,
+          75
+        ],
+        [
+          24,
+          0,
+          78,
+          686
+        ]
+      ]
+    },
+    {
+      "name": "fourclass_auk_hubert",
+      "path": "/data/probe_results/matched_fourclass_auk_hubert_mi5000/report.json",
+      "exists": true,
+      "pair_count": null,
+      "sample_count": null,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse"
+      ],
+      "accuracy": 0.9413071065989848,
+      "balanced_accuracy": 0.9413071065989848,
+      "macro_f1": 0.9413725610334758,
+      "confusion_matrix": [
+        [
+          782,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          788,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          705,
+          82
+        ],
+        [
+          1,
+          0,
+          95,
+          692
+        ]
+      ]
+    },
+    {
+      "name": "fourclass_specialist_hubert",
+      "path": "/data/probe_results/matched_fourclass_specialist_hubert_mi5000/report.json",
+      "exists": true,
+      "pair_count": null,
+      "sample_count": null,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse"
+      ],
+      "accuracy": 0.9847715736040609,
+      "balanced_accuracy": 0.9847715736040609,
+      "macro_f1": 0.9847377985496555,
+      "confusion_matrix": [
+        [
+          754,
+          4,
+          27,
+          3
+        ],
+        [
+          0,
+          787,
+          1,
+          0
+        ],
+        [
+          9,
+          0,
+          777,
+          2
+        ],
+        [
+          0,
+          1,
+          1,
+          786
+        ]
+      ]
+    },
+    {
+      "name": "fiveclass_auk_wav2vec2",
+      "path": "/data/probe_results/auk_fiveclass_content_edit_wav2vec2/report.json",
+      "exists": true,
+      "pair_count": 3734,
+      "sample_count": 18670,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse",
+        "content_edit"
+      ],
+      "accuracy": 0.7554770318021201,
+      "balanced_accuracy": 0.7554770318021202,
+      "macro_f1": 0.7546910603125971,
+      "confusion_matrix": [
+        [
+          419,
+          1,
+          22,
+          23,
+          101
+        ],
+        [
+          5,
+          548,
+          1,
+          2,
+          10
+        ],
+        [
+          10,
+          1,
+          418,
+          121,
+          16
+        ],
+        [
+          32,
+          1,
+          167,
+          340,
+          26
+        ],
+        [
+          98,
+          17,
+          21,
+          17,
+          413
+        ]
+      ]
+    },
+    {
+      "name": "fiveclass_specialist_wav2vec2",
+      "path": "/data/probe_results/specialist_fiveclass_cosyedit_wav2vec2/report.json",
+      "exists": true,
+      "pair_count": 3734,
+      "sample_count": 18670,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse",
+        "content_edit"
+      ],
+      "accuracy": 0.830035335689046,
+      "balanced_accuracy": 0.830035335689046,
+      "macro_f1": 0.8304614116621044,
+      "confusion_matrix": [
+        [
+          440,
+          2,
+          66,
+          25,
+          33
+        ],
+        [
+          3,
+          546,
+          1,
+          3,
+          13
+        ],
+        [
+          48,
+          1,
+          437,
+          56,
+          24
+        ],
+        [
+          22,
+          0,
+          62,
+          461,
+          21
+        ],
+        [
+          32,
+          13,
+          33,
+          23,
+          465
+        ]
+      ]
+    },
+    {
+      "name": "fiveclass_auk_hubert",
+      "path": "/data/probe_results/auk_fiveclass_content_edit_hubert/report.json",
+      "exists": true,
+      "pair_count": 3734,
+      "sample_count": 18670,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse",
+        "content_edit"
+      ],
+      "accuracy": 0.9296819787985866,
+      "balanced_accuracy": 0.9296819787985866,
+      "macro_f1": 0.9295601842323016,
+      "confusion_matrix": [
+        [
+          558,
+          0,
+          2,
+          1,
+          5
+        ],
+        [
+          0,
+          563,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          1,
+          479,
+          81,
+          5
+        ],
+        [
+          2,
+          0,
+          68,
+          490,
+          6
+        ],
+        [
+          9,
+          9,
+          3,
+          4,
+          541
+        ]
+      ]
+    },
+    {
+      "name": "fiveclass_specialist_hubert",
+      "path": "/data/probe_results/specialist_fiveclass_cosyedit_hubert/report.json",
+      "exists": true,
+      "pair_count": 3734,
+      "sample_count": 18670,
+      "classes": [
+        "real",
+        "tts",
+        "se",
+        "tse",
+        "content_edit"
+      ],
+      "accuracy": 0.9752650176678446,
+      "balanced_accuracy": 0.9752650176678446,
+      "macro_f1": 0.9753319526778954,
+      "confusion_matrix": [
+        [
+          524,
+          1,
+          36,
+          3,
+          2
+        ],
+        [
+          0,
+          566,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          561,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          563,
+          2
+        ],
+        [
+          1,
+          1,
+          16,
+          2,
+          546
+        ]
+      ]
+    }
+  ],
+  "documents": {
+    "agents": true,
+    "project_state": true,
+    "research_brief": true,
+    "experiment_ledger": true,
+    "artifact_index": true,
+    "environment_tools": true,
+    "decisions": true,
+    "experiment_template": true,
+    "new_session_prompt": true,
+    "auk_task_inventory": true,
+    "auk_expansion_roadmap": true,
+    "task_group_protocol_plan": true
+  }
+}

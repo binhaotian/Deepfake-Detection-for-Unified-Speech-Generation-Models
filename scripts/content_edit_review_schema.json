@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text_group_id": {"type": "string"},
+          "decision": {"type": "string", "enum": ["accept", "revise", "reject"]},
+          "old_word": {"type": "string"},
+          "new_word": {"type": "string"},
+          "edited_text": {"type": "string"},
+          "route": {"type": "string", "enum": ["B_semantic_contrast", "C_natural_context", "none"]},
+          "part_of_speech": {"type": "string"},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "reason": {"type": "string"}
+        },
+        "required": [
+          "text_group_id", "decision", "old_word", "new_word", "edited_text",
+          "route", "part_of_speech", "confidence", "reason"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}

@@ -7,6 +7,7 @@ import os
 import torch
 import torchaudio
 from omegaconf import OmegaConf
+from torch.nn.utils.rnn import pad_sequence
 from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration
 
 from auk.model import CFMEdit, Flux2Edit
@@ -254,6 +255,83 @@ class AukInfer:
 
         return gen_audio.to(torch.float32)
 
+    @torch.inference_mode()
+    def _run_batch(
+        self,
+        ref_audios: list[torch.Tensor],
+        messages_batch: list[list],
+        gen_latent_lens: list[int],
+        *,
+        nfe: int,
+        cfg_strength: float,
+        sway_sampling_coef: float | None,
+        t_grid: list[float] | None,
+        seed: int | list[int] | torch.Tensor | None,
+    ) -> list[torch.Tensor]:
+        if not ref_audios:
+            return []
+
+        # Encode each reference independently. This avoids padding from changing
+        # VAE boundary behavior and makes each sample reproducible from its seed.
+        latent_rows = []
+        ref_latent_lens_list = []
+        for index, audio in enumerate(ref_audios):
+            sample_seed = seed if isinstance(seed, int) else (seed[index] if seed is not None else None)
+            if sample_seed is not None:
+                torch.manual_seed(int(sample_seed))
+            sample_len = audio.shape[-1]
+            audio_device = audio.to(self.device).unsqueeze(0)
+            sample_lens = torch.tensor([sample_len], dtype=torch.long, device=self.device)
+            latent, encoded_lens = self.vae_model.encoding_and_normalization(
+                audio_device,
+                sample_lengths=sample_lens,
+            )
+            ref_len = min(sample_len // self.downsample_rate, int(encoded_lens[0].item()))
+            latent_rows.append(latent[0, :ref_len])
+            ref_latent_lens_list.append(ref_len)
+        ref_latents = pad_sequence(latent_rows, batch_first=True, padding_value=0.0)
+        ref_latent_lens = torch.tensor(ref_latent_lens_list, dtype=torch.long, device=self.device)
+        gen_lens = torch.tensor(gen_latent_lens, dtype=torch.long, device=self.device)
+        total_lens = ref_latent_lens + gen_lens
+
+        with torch.autocast("cuda", dtype=self.dtype, enabled=self.device.startswith("cuda")):
+            cond_inputs = self.model.build_cond_inputs(messages_batch, self.model.text_processor)
+            generated, _ = self.model.sample(
+                cond=ref_latents,
+                text=cond_inputs,
+                duration=total_lens,
+                lens=ref_latent_lens,
+                steps=nfe,
+                cfg_strength=cfg_strength,
+                sway_sampling_coef=sway_sampling_coef,
+                t_grid=t_grid,
+                no_ref_audio=False,
+                seed=seed,
+            )
+
+        max_gen_len = max(gen_latent_lens)
+        generated_latents = torch.zeros(
+            len(ref_audios), max_gen_len, self.latent_dim,
+            device=self.device, dtype=generated.dtype,
+        )
+        for index, gen_len in enumerate(gen_latent_lens):
+            ref_len = int(ref_latent_lens[index].item())
+            generated_latents[index, :gen_len] = generated[index, ref_len : ref_len + gen_len]
+
+        if not torch.isfinite(generated_latents).all():
+            raise RuntimeError("Generated batch latent contains NaN/Inf.")
+
+        generated_latents = self.vae_model.denormalize(generated_latents)
+        decoded = self.vae_model.inference_from_latents(generated_latents.permute(0, 2, 1)).cpu()
+        if not torch.isfinite(decoded).all():
+            raise RuntimeError("Generated batch audio contains NaN/Inf.")
+
+        outputs = []
+        for index, gen_len in enumerate(gen_latent_lens):
+            sample_len = gen_len * self.downsample_rate
+            outputs.append(decoded[index, :, :sample_len].to(torch.float32))
+        return outputs
+
     # ------------------------------------------------------------------ public API
 
     def generate(
@@ -318,6 +396,67 @@ class AukInfer:
                 with torch.cuda.device(self.device):
                     torch.cuda.empty_cache()
         return audio_out, self.target_sample_rate
+
+    def generate_batch(
+        self,
+        messages_batch: list[list],
+        *,
+        audios: list[str | tuple[torch.Tensor, int]],
+        gen_seconds: list[float | None] | None = None,
+        nfe: int = 32,
+        cfg_strength: float = 2.0,
+        sway_sampling_coef: float = -1.0,
+        t_grid: list[float] | None = None,
+        seed: int | list[int] | torch.Tensor | None = None,
+    ) -> tuple[list[torch.Tensor], int]:
+        """Generate a batch of referenced-audio requests with padded variable lengths."""
+        batch_size = len(messages_batch)
+        if batch_size == 0 or len(audios) != batch_size:
+            raise ValueError("messages_batch and audios must have the same non-zero length.")
+        if gen_seconds is None:
+            gen_seconds = [None] * batch_size
+        if len(gen_seconds) != batch_size:
+            raise ValueError("gen_seconds must match the batch size.")
+        if seed is not None and not isinstance(seed, int) and len(seed) != batch_size:
+            raise ValueError("Per-sample seeds must match the batch size.")
+
+        ref_audios = []
+        gen_latent_lens = []
+        for source, seconds in zip(audios, gen_seconds):
+            audio, _ = self._load_audio(source)
+            ref_audios.append(audio)
+            if seconds is None:
+                gen_latent_lens.append(max(1, audio.shape[-1] // self.downsample_rate))
+            else:
+                gen_latent_lens.append(
+                    max(1, int(math.ceil(seconds * self.target_sample_rate / self.downsample_rate)))
+                )
+
+        if self.is_flash:
+            nfe = 4
+            cfg_strength = 0.0
+            sway_sampling_coef = None
+            t_grid = [0.0, 0.07612049579620361, 0.2928932309150696, 0.6173166036605835, 1.0]
+
+        try:
+            outputs = self._run_batch(
+                ref_audios,
+                messages_batch,
+                gen_latent_lens,
+                nfe=nfe,
+                cfg_strength=cfg_strength,
+                sway_sampling_coef=sway_sampling_coef,
+                t_grid=t_grid,
+                seed=seed,
+            )
+        finally:
+            if self.cpu_offload:
+                self.model.transformer.clear_cache()
+                for hook in self._offload_hooks:
+                    hook.offload()
+                with torch.cuda.device(self.device):
+                    torch.cuda.empty_cache()
+        return outputs, self.target_sample_rate
 
 
 def extract_audio_path(messages: list, *, required: bool = True) -> str | None:
